@@ -1,0 +1,49 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: grafana-prom-datasource-cronjob
+  namespace: o11y
+spec:
+  parallelism: 1
+  completions: 1
+  activeDeadlineSeconds: 60
+  backofflimit: 5
+  template:
+    metadata:
+      name: grafana-prom-datasource-cronjob
+    spec:
+      containers:
+      - name: grafana-prom-datasource-provisioner
+        image: registry.redhat.io/openshift4/ose-cli:v4.11
+        imagePullPolicy: IfNotPresent
+        command:
+        - /bin/bash
+        - -c
+        - |
+          export TOKEN=$(oc get secret $(oc describe sa grafana-serviceaccount -n o11y | grep Tokens | awk '{print $2}') -n o11y -o go-template='{{.data.token|base64decode}}')
+
+          cat <<EOF | oc apply -f -
+          apiVersion: integreatly.org/v1alpha1
+          kind: GrafanaDataSource
+          metadata:
+            name: thanos-datasource
+            namespace: o11y
+          spec:
+            datasources:
+              - access: proxy
+                editable: true
+                isDefault: true
+                jsonData:
+                  httpHeaderName1: Authorization
+                  timeInterval: 5s
+                  tlsSkipVerify: true
+                name: Prometheus
+                secureJsonData:
+                  httpHeaderValue1: >-
+                    Bearer $TOKEN
+                type: prometheus
+                url: 'https://thanos-querier.openshift-monitoring.svc.cluster.local:9091'
+            name: thanos-datasource.yaml
+          EOF
+      restartPolicy: OnFailure
+      serviceAccountName: grafana-datasource-creator-sa

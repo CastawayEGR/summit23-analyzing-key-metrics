@@ -1,0 +1,45 @@
+﻿apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: cluster-monitoring-view
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-monitoring-view
+subjects:
+- kind: ServiceAccount
+  name: grafana-serviceaccount
+  namespace: o11y
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: grafana-datasource-creator-sa
+  namespace: o11y
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: grafana-datasource-secret-creator
+  namespace: o11y
+subjects:
+  - kind: ServiceAccount
+    name: grafana-datasource-creator-sa
+    namespace: o11y
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: grafana-datasource-secret-creator
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: grafana-datasource-secret-creator
+  namespace: o11y
+rules:
+  - apiGroups: [""]
+    resources: ["secrets", "serviceaccounts"]
+    verbs:     ["get","create","patch","update","describe","list"]
+  - apiGroups: ["integreatly.org"]
+    resources: ["grafanadatasources"]
+    verbs:     ["get","create","patch","update"]
