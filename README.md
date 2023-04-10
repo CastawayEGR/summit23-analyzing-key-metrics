@@ -1,4 +1,4 @@
-# summit-grafana
+# summit23-analyzing-key-metrics
 
 ### Deploy Grafana Operator
 
