@@ -1,0 +1,1099 @@
+apiVersion: integreatly.org/v1alpha1
+kind: GrafanaDashboard
+metadata:
+  labels:
+    app: grafana
+  name: openshift-kubelet-dashboard
+  namespace: o11y
+spec:
+  customFolderName: "openshift"
+  json: |
+    {
+        "annotations": {
+          "list": [
+            {
+              "builtIn": 1,
+              "datasource": {
+                "type": "datasource",
+                "uid": "grafana"
+              },
+              "enable": true,
+              "hide": true,
+              "iconColor": "rgba(0, 211, 255, 1)",
+              "name": "Annotations & Alerts",
+              "target": {
+                "limit": 100,
+                "matchAny": false,
+                "tags": [],
+                "type": "dashboard"
+              },
+              "type": "dashboard"
+            }
+          ]
+        },
+        "description": "",
+        "editable": true,
+        "fiscalYearStartMonth": 0,
+        "graphTooltip": 0,
+        "id": 26,
+        "links": [],
+        "liveNow": false,
+        "panels": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "$datasource"
+            },
+            "description": "",
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "fixedColor": "light-blue",
+                  "mode": "fixed"
+                },
+                "mappings": [],
+                "noValue": "None",
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "light-blue",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 5,
+              "w": 3,
+              "x": 0,
+              "y": 0
+            },
+            "id": 8,
+            "options": {
+              "colorMode": "background",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "text": {},
+              "textMode": "auto"
+            },
+            "pluginVersion": "9.4.7",
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+                },
+                "exemplar": false,
+                "expr": "kubelet_running_pods{instance=\"$instance\", job=\"$job\"}",
+                "instant": true,
+                "interval": "",
+                "legendFormat": "{{node_kubernetes_io_instance_type}}",
+                "refId": "A"
+              }
+            ],
+            "title": "Pods running",
+            "transparent": true,
+            "type": "stat"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "$datasource"
+            },
+            "description": "",
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "fixedColor": "light-blue",
+                  "mode": "fixed"
+                },
+                "decimals": 1,
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "light-blue",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                },
+                "unit": "reqps"
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 5,
+              "w": 3,
+              "x": 3,
+              "y": 0
+            },
+            "id": 2,
+            "interval": "5m",
+            "options": {
+              "colorMode": "background",
+              "graphMode": "area",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [],
+                "fields": "",
+                "values": false
+              },
+              "text": {},
+              "textMode": "auto"
+            },
+            "pluginVersion": "9.4.7",
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+                },
+                "exemplar": false,
+                "expr": "kubelet_http_inflight_requests{job=\"$job\", instance=\"$instance\", path=\"metrics\"}",
+                "instant": true,
+                "interval": "",
+                "legendFormat": "{{method}}",
+                "refId": "A"
+              }
+            ],
+            "title": "Kubelet Inflight Requests",
+            "transparent": true,
+            "type": "stat"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "$datasource"
+            },
+            "description": "",
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "fixedColor": "light-blue",
+                  "mode": "fixed"
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                },
+                "unit": "bytes"
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 5,
+              "w": 4,
+              "x": 6,
+              "y": 0
+            },
+            "id": 37,
+            "options": {
+              "colorMode": "background",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "text": {},
+              "textMode": "auto"
+            },
+            "pluginVersion": "9.4.7",
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+                },
+                "exemplar": false,
+                "expr": "process_resident_memory_bytes{job=\"$job\", instance=\"$instance\"}",
+                "instant": true,
+                "interval": "",
+                "legendFormat": "Kubelet memory",
+                "refId": "A"
+              }
+            ],
+            "title": "Kubelet Resident Memory",
+            "transparent": true,
+            "type": "stat"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "$datasource"
+            },
+            "description": "",
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "fixedColor": "light-blue",
+                  "mode": "fixed"
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 5,
+              "w": 3,
+              "x": 10,
+              "y": 0
+            },
+            "id": 20,
+            "interval": "2m",
+            "options": {
+              "colorMode": "background",
+              "graphMode": "area",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "text": {},
+              "textMode": "value_and_name"
+            },
+            "pluginVersion": "9.4.7",
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+                },
+                "exemplar": true,
+                "expr": "increase(kubelet_pleg_discard_events{instance=\"$instance\"}[$__rate_interval])",
+                "instant": false,
+                "interval": "$__rate_interval",
+                "legendFormat": "Discard Events",
+                "refId": "A"
+              }
+            ],
+            "title": "Kubelet Discard Events",
+            "transparent": true,
+            "type": "stat"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "$datasource"
+            },
+            "description": "",
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                },
+                "mappings": [],
+                "noValue": "Finished",
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                },
+                "unit": "s"
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 5,
+              "w": 6,
+              "x": 13,
+              "y": 0
+            },
+            "id": 26,
+            "options": {
+              "colorMode": "background",
+              "graphMode": "area",
+              "justifyMode": "auto",
+              "orientation": "auto",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "textMode": "value_and_name"
+            },
+            "pluginVersion": "9.4.7",
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+                },
+                "exemplar": false,
+                "expr": "histogram_quantile(0.90, increase(kubelet_pod_worker_duration_seconds_bucket{instance=\"$instance\", job=\"$job\"}[$__rate_interval]))",
+                "format": "time_series",
+                "interval": "$__rate_interval",
+                "legendFormat": "{{operation_type}}",
+                "refId": "A"
+              }
+            ],
+            "title": "Pod Worker Duration",
+            "transformations": [],
+            "transparent": true,
+            "type": "stat"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "$datasource"
+            },
+            "description": "",
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "fixedColor": "light-blue",
+                  "mode": "continuous-BlPu"
+                },
+                "mappings": [],
+                "noValue": "None",
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "light-blue",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 5,
+              "w": 5,
+              "x": 19,
+              "y": 0
+            },
+            "id": 4,
+            "options": {
+              "colorMode": "background",
+              "graphMode": "none",
+              "justifyMode": "auto",
+              "orientation": "horizontal",
+              "reduceOptions": {
+                "calcs": [
+                  "lastNotNull"
+                ],
+                "fields": "",
+                "values": false
+              },
+              "text": {},
+              "textMode": "value_and_name"
+            },
+            "pluginVersion": "9.4.7",
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+                },
+                "exemplar": false,
+                "expr": "kubelet_running_containers{job=\"$job\", instance=\"$instance\", container_state!=\"exited\"}",
+                "instant": true,
+                "interval": "",
+                "legendFormat": "{{container_state}}",
+                "refId": "A"
+              }
+            ],
+            "title": "Current Container Count",
+            "transparent": true,
+            "type": "stat"
+          },
+          {
+            "cards": {},
+            "color": {
+              "cardColor": "#b4ff00",
+              "colorScale": "sqrt",
+              "colorScheme": "interpolateSpectral",
+              "exponent": 0.5,
+              "mode": "spectrum"
+            },
+            "dataFormat": "tsbuckets",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "$datasource"
+            },
+            "description": "",
+            "fieldConfig": {
+              "defaults": {
+                "custom": {
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "scaleDistribution": {
+                    "type": "linear"
+                  }
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 13,
+              "w": 12,
+              "x": 0,
+              "y": 5
+            },
+            "heatmap": {},
+            "hideZeroBuckets": true,
+            "highlightCards": true,
+            "id": 28,
+            "interval": "2m",
+            "legend": {
+              "show": false
+            },
+            "options": {
+              "calculate": true,
+              "calculation": {},
+              "cellGap": 2,
+              "cellValues": {
+                "unit": "s"
+              },
+              "color": {
+                "exponent": 0.5,
+                "fill": "#b4ff00",
+                "mode": "scheme",
+                "reverse": true,
+                "scale": "exponential",
+                "scheme": "RdYlGn",
+                "steps": 128
+              },
+              "exemplars": {
+                "color": "rgba(255,0,255,0.7)"
+              },
+              "filterValues": {
+                "le": 1e-9
+              },
+              "legend": {
+                "show": false
+              },
+              "rowsFrame": {
+                "layout": "auto"
+              },
+              "showValue": "never",
+              "tooltip": {
+                "show": true,
+                "yHistogram": true
+              },
+              "yAxis": {
+                "axisPlacement": "left",
+                "decimals": 0,
+                "reverse": false,
+                "unit": "s"
+              }
+            },
+            "pluginVersion": "9.4.7",
+            "reverseYBuckets": false,
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+                },
+                "exemplar": false,
+                "expr": "increase(kubelet_pleg_relist_duration_seconds_bucket{instance=\"$instance\"}[$__rate_interval])",
+                "format": "heatmap",
+                "interval": "$__rate_interval",
+                "legendFormat": "{{le}}",
+                "refId": "A"
+              }
+            ],
+            "title": "Pleg Relist Duration",
+            "tooltip": {
+              "show": true,
+              "showHistogram": true
+            },
+            "transparent": true,
+            "type": "heatmap",
+            "xAxis": {
+              "show": true
+            },
+            "yAxis": {
+              "decimals": 0,
+              "format": "s",
+              "logBase": 1,
+              "show": true
+            },
+            "yBucketBound": "auto"
+          },
+          {
+            "cards": {},
+            "color": {
+              "cardColor": "#b4ff00",
+              "colorScale": "sqrt",
+              "colorScheme": "interpolateSpectral",
+              "exponent": 0.5,
+              "mode": "spectrum"
+            },
+            "dataFormat": "tsbuckets",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "$datasource"
+            },
+            "description": "",
+            "fieldConfig": {
+              "defaults": {
+                "custom": {
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "scaleDistribution": {
+                    "type": "linear"
+                  }
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 13,
+              "w": 12,
+              "x": 12,
+              "y": 5
+            },
+            "heatmap": {},
+            "hideZeroBuckets": true,
+            "highlightCards": true,
+            "id": 22,
+            "legend": {
+              "show": false
+            },
+            "options": {
+              "calculate": false,
+              "calculation": {},
+              "cellGap": 2,
+              "cellValues": {},
+              "color": {
+                "exponent": 0.5,
+                "fill": "#b4ff00",
+                "mode": "scheme",
+                "reverse": false,
+                "scale": "exponential",
+                "scheme": "Spectral",
+                "steps": 128
+              },
+              "exemplars": {
+                "color": "rgba(255,0,255,0.7)"
+              },
+              "filterValues": {
+                "le": 1e-9
+              },
+              "legend": {
+                "show": false
+              },
+              "rowsFrame": {
+                "layout": "auto"
+              },
+              "showValue": "never",
+              "tooltip": {
+                "show": true,
+                "yHistogram": true
+              },
+              "yAxis": {
+                "axisPlacement": "left",
+                "decimals": 0,
+                "reverse": false,
+                "unit": "s"
+              }
+            },
+            "pluginVersion": "9.4.7",
+            "reverseYBuckets": false,
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+                },
+                "exemplar": false,
+                "expr": "increase(kubelet_run_podsandbox_duration_seconds_bucket{instance=\"$instance\"}[$__rate_interval])",
+                "format": "heatmap",
+                "interval": "$__rate_interval",
+                "legendFormat": "{{le}}",
+                "refId": "A"
+              }
+            ],
+            "title": "Run Podsandbox Duration",
+            "tooltip": {
+              "show": true,
+              "showHistogram": true
+            },
+            "transparent": true,
+            "type": "heatmap",
+            "xAxis": {
+              "show": true
+            },
+            "yAxis": {
+              "decimals": 0,
+              "format": "s",
+              "logBase": 1,
+              "show": true
+            },
+            "yBucketBound": "auto"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "$datasource"
+            },
+            "description": "",
+            "fieldConfig": {
+              "defaults": {
+                "color": {
+                  "fixedColor": "light-blue",
+                  "mode": "palette-classic"
+                },
+                "custom": {
+                  "axisCenteredZero": false,
+                  "axisColorMode": "text",
+                  "axisGridShow": false,
+                  "axisLabel": "",
+                  "axisPlacement": "left",
+                  "axisSoftMin": 0,
+                  "fillOpacity": 53,
+                  "gradientMode": "hue",
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "lineWidth": 2,
+                  "scaleDistribution": {
+                    "type": "linear"
+                  },
+                  "thresholdsStyle": {
+                    "mode": "off"
+                  }
+                },
+                "mappings": [],
+                "thresholds": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "red",
+                      "value": 80
+                    }
+                  ]
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 15,
+              "w": 24,
+              "x": 0,
+              "y": 18
+            },
+            "id": 18,
+            "options": {
+              "barRadius": 0.2,
+              "barWidth": 0.56,
+              "fullHighlight": false,
+              "groupWidth": 0.8,
+              "legend": {
+                "calcs": [
+                  "max"
+                ],
+                "displayMode": "table",
+                "placement": "bottom",
+                "showLegend": true,
+                "sortBy": "Max",
+                "sortDesc": false
+              },
+              "orientation": "auto",
+              "showValue": "auto",
+              "stacking": "normal",
+              "text": {},
+              "tooltip": {
+                "mode": "single",
+                "sort": "none"
+              },
+              "xTickLabelRotation": 0,
+              "xTickLabelSpacing": 0
+            },
+            "pluginVersion": "8.4.6",
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+                },
+                "exemplar": false,
+                "expr": "increase(kubelet_runtime_operations_errors_total{instance=\"$instance\", job=\"$job\"}[$__rate_interval])",
+                "instant": false,
+                "interval": "$__rate_interval",
+                "legendFormat": "{{operation_type}}",
+                "refId": "A"
+              }
+            ],
+            "title": "Runtime Operations Errors",
+            "transformations": [],
+            "transparent": true,
+            "type": "barchart"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "PBFA97CFB590B2093"
+            },
+            "fieldConfig": {
+              "defaults": {
+                "custom": {
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "scaleDistribution": {
+                    "type": "linear"
+                  }
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 13,
+              "w": 12,
+              "x": 0,
+              "y": 33
+            },
+            "id": 39,
+            "options": {
+              "calculate": true,
+              "cellGap": 2,
+              "color": {
+                "exponent": 0.5,
+                "fill": "dark-orange",
+                "mode": "scheme",
+                "reverse": true,
+                "scale": "exponential",
+                "scheme": "RdYlGn",
+                "steps": 128
+              },
+              "exemplars": {
+                "color": "rgba(255,0,255,0.7)"
+              },
+              "filterValues": {
+                "le": 1e-9
+              },
+              "legend": {
+                "show": true
+              },
+              "rowsFrame": {
+                "layout": "auto"
+              },
+              "tooltip": {
+                "show": true,
+                "yHistogram": false
+              },
+              "yAxis": {
+                "axisPlacement": "left",
+                "reverse": false,
+                "unit": "s"
+              }
+            },
+            "pluginVersion": "9.4.7",
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "PBFA97CFB590B2093"
+                },
+                "editorMode": "code",
+                "expr": "increase(kubelet_pod_start_duration_seconds_bucket{instance=\"$instance\"}[$__rate_interval])",
+                "legendFormat": "__auto",
+                "range": true,
+                "refId": "A"
+              }
+            ],
+            "title": "Kubelet Pod Start Duration - Seconds",
+            "transparent": true,
+            "type": "heatmap"
+          },
+          {
+            "cards": {},
+            "color": {
+              "cardColor": "#b4ff00",
+              "colorScale": "sqrt",
+              "colorScheme": "interpolateSpectral",
+              "exponent": 0.5,
+              "mode": "spectrum"
+            },
+            "dataFormat": "tsbuckets",
+            "datasource": {
+              "type": "prometheus",
+              "uid": "$datasource"
+            },
+            "description": "",
+            "fieldConfig": {
+              "defaults": {
+                "custom": {
+                  "hideFrom": {
+                    "legend": false,
+                    "tooltip": false,
+                    "viz": false
+                  },
+                  "scaleDistribution": {
+                    "type": "linear"
+                  }
+                }
+              },
+              "overrides": []
+            },
+            "gridPos": {
+              "h": 13,
+              "w": 12,
+              "x": 12,
+              "y": 33
+            },
+            "heatmap": {},
+            "hideZeroBuckets": true,
+            "highlightCards": true,
+            "id": 24,
+            "legend": {
+              "show": false
+            },
+            "options": {
+              "calculate": false,
+              "calculation": {},
+              "cellGap": 2,
+              "cellValues": {},
+              "color": {
+                "exponent": 0.5,
+                "fill": "#b4ff00",
+                "mode": "scheme",
+                "reverse": false,
+                "scale": "exponential",
+                "scheme": "Spectral",
+                "steps": 128
+              },
+              "exemplars": {
+                "color": "rgba(255,0,255,0.7)"
+              },
+              "filterValues": {
+                "le": 1e-9
+              },
+              "legend": {
+                "show": false
+              },
+              "rowsFrame": {
+                "layout": "auto"
+              },
+              "showValue": "never",
+              "tooltip": {
+                "show": true,
+                "yHistogram": true
+              },
+              "yAxis": {
+                "axisPlacement": "left",
+                "decimals": 0,
+                "reverse": false,
+                "unit": "s"
+              }
+            },
+            "pluginVersion": "9.4.7",
+            "reverseYBuckets": false,
+            "targets": [
+              {
+                "datasource": {
+                  "type": "prometheus",
+                  "uid": "$datasource"
+                },
+                "exemplar": false,
+                "expr": "increase(kubelet_http_requests_duration_seconds_bucket{instance=\"$instance\", path=\"metrics\"}[$__rate_interval])",
+                "format": "heatmap",
+                "interval": "$__rate_interval",
+                "legendFormat": "{{le}}",
+                "refId": "A"
+              }
+            ],
+            "title": "Kubelet Http Requests Duration",
+            "tooltip": {
+              "show": true,
+              "showHistogram": true
+            },
+            "transparent": true,
+            "type": "heatmap",
+            "xAxis": {
+              "show": true
+            },
+            "yAxis": {
+              "decimals": 0,
+              "format": "s",
+              "logBase": 1,
+              "show": true
+            },
+            "yBucketBound": "auto"
+          }
+        ],
+        "refresh": "5m",
+        "revision": 1,
+        "schemaVersion": 38,
+        "style": "dark",
+        "tags": [],
+        "templating": {
+          "list": [
+            {
+              "current": {
+                "selected": false,
+                "text": "10.0.152.242:10250",
+                "value": "10.0.152.242:10250"
+              },
+              "datasource": {
+                "type": "prometheus",
+                "uid": "$datasource"
+              },
+              "definition": "label_values(kubelet_runtime_operations_total{ job=\"$job\", metrics_path=\"/metrics\"}, instance)",
+              "hide": 1,
+              "includeAll": false,
+              "label": "",
+              "multi": false,
+              "name": "instance",
+              "options": [],
+              "query": {
+                "query": "label_values(kubelet_runtime_operations_total{ job=\"$job\", metrics_path=\"/metrics\"}, instance)",
+                "refId": "StandardVariableQuery"
+              },
+              "refresh": 2,
+              "regex": "",
+              "skipUrlSync": false,
+              "sort": 0,
+              "type": "query"
+            },
+            {
+              "current": {
+                "selected": false,
+                "text": "kubelet",
+                "value": "kubelet"
+              },
+              "datasource": {
+                "type": "prometheus",
+                "uid": "$datasource"
+              },
+              "definition": "label_values(kubelet_node_name,  job)",
+              "hide": 2,
+              "includeAll": false,
+              "label": "kubelet",
+              "multi": false,
+              "name": "job",
+              "options": [],
+              "query": {
+                "query": "label_values(kubelet_node_name,  job)",
+                "refId": "StandardVariableQuery"
+              },
+              "refresh": 1,
+              "regex": "",
+              "skipUrlSync": false,
+              "sort": 0,
+              "type": "query"
+            },
+            {
+              "current": {
+                "selected": false,
+                "text": "Prometheus",
+                "value": "Prometheus"
+              },
+              "hide": 1,
+              "includeAll": false,
+              "multi": false,
+              "name": "datasource",
+              "options": [],
+              "query": "prometheus",
+              "queryValue": "",
+              "refresh": 1,
+              "regex": "/Prom.*/",
+              "skipUrlSync": false,
+              "type": "datasource"
+            }
+          ]
+        },
+        "time": {
+          "from": "now-3h",
+          "to": "now"
+        },
+        "timepicker": {
+          "nowDelay": "",
+          "refresh_intervals": [
+            "30s",
+            "1m",
+            "5m"
+          ]
+        },
+        "timezone": "browser",
+        "title": "OpenShift - Kubelet Troubleshooter",
+        "uid": "d0OLBuYnl",
+        "version": 4,
+        "weekStart": ""
+      }
