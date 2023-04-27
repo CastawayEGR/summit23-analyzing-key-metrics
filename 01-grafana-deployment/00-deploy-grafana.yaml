@@ -4,7 +4,7 @@ metadata:
   name: grafana
   namespace: o11y
 spec:
-  baseImage: grafana/grafana:8.5.22
+  baseImage: grafana/grafana:9.4.7
   client:
     preferService: true
   config:
